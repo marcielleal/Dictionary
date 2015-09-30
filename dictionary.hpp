@@ -1,10 +1,12 @@
 #ifndef DICTIONARY_HPP
 #define DICTIONARY_HPP
 #include <iostream>
+
+typedef int Key;
+typedef std::string Data;
+
 class DictionaryAL{
 	protected:
-		typedef int Key;
-		typedef std::string Data;
 		struct NodeAl{
 			Key id;
 			Data info;
