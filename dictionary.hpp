@@ -11,7 +11,6 @@ class DictionaryAL{
 			Key id;
 			Data info;
 		};
-		
 		static const int SIZE=50;
 		int mi_Length;
 		int mi_Capacity;
