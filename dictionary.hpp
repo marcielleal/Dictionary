@@ -2,9 +2,7 @@
 #define DICTIONARY_HPP
 #include <iostream>
 
-typedef int Key;
-typedef std::string Data;
-
+template <typename Key,typename Data,typename KeyComparator>
 class DictionaryAL{
 	protected:
 		struct NodeAl{
@@ -15,7 +13,7 @@ class DictionaryAL{
 		int mi_Length;
 		int mi_Capacity;
 		NodeAl *mpt_Data;
-		
+
 		int _search(Key _x) const;	//const serve para mostrar que o metodo nao ira alterar nenhum atributo da classe
 		
 	public:
@@ -38,13 +36,14 @@ class DictionaryAL{
 			return _os;
 		}
 };
-
-class DictionarySAL:public DictionaryAL{
+template <typename Key,typename Data,typename KeyComparator>
+class DictionarySAL:public DictionaryAL<Key,Data,KeyComparator>{
 	public:
-		DictionarySAL(int _MaxSz):DictionaryAL(_MaxSz){/* Empty */};
+		DictionarySAL(int _MaxSz):DictionaryAL<Key,Data,KeyComparator>(_MaxSz){/* Empty */};
 		virtual ~DictionarySAL(){ /* Empty */ };
 		bool remove(Key _x, Data &_s);
 		bool insert(Key _novaId, Data _novaInfo);
+		bool search(Key _x,Data &_s);
 		Key min() const;
 		Key max() const;
 		bool sucessor(Key _x, Key & _y) const ;
