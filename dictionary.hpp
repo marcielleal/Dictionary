@@ -19,13 +19,14 @@ class DictionaryAL{
 	public:
 		DictionaryAL(int _MaxSz=SIZE);
 		virtual ~DictionaryAL(){delete [] mpt_Data;};
-		bool remove(Key _x,Data &_s);
 		bool search(Key _x,Data &_s);
+		bool remove(Key _x,Data &_s);
 		bool insert(Key _newKey, Data _newInfo);
 		Key min() const;
 		Key max() const;
 		bool sucessor(Key _x, Key &_y) const;
 		bool predecessor(Key _x, Key &_y) const;
+		int compare(Key a,Key b) const;
 		
 		inline friend
 		std::ostream &operator <<(std::ostream &_os,const DictionaryAL &_oList){
@@ -36,6 +37,7 @@ class DictionaryAL{
 			return _os;
 		}
 };
+
 template <typename Key,typename Data,typename KeyComparator>
 class DictionarySAL:public DictionaryAL<Key,Data,KeyComparator>{
 	public:
@@ -46,8 +48,8 @@ class DictionarySAL:public DictionaryAL<Key,Data,KeyComparator>{
 		bool search(Key _x,Data &_s);
 		Key min() const;
 		Key max() const;
-		bool sucessor(Key _x, Key & _y) const ;
-		bool predecessor(Key _x, Key & _y) const ;
+		bool sucessor(Key _x, Key & _y) const;
+		bool predecessor(Key _x, Key & _y) const;
 	private:
 		int _search (Key _x) const ; 
 };

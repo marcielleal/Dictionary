@@ -4,21 +4,22 @@
  * um inteiro negativo indicando o local onde ela poderia ser colocada sem
  * alterar a ordenacao do vetor. Para saber esse indice, basta multiplicar por
  * -1 e subtrair 1 desse inteiro negativo retornado pela funcao*/
+
 template <typename Key,typename Data,typename KeyComparator>
 int DictionarySAL<Key,Data,KeyComparator>::_search(Key _x) const{
 	int e,m,d;
 	e=-1; d=this->mi_Length;
 	while(e<d-1){
 		m=(e+d)/2;
-		if((((this->mpt_Data)+m)->id)<_x) e=m;
-		else if((((this.mpt_Data)+m)->id)>_x) d=m;
+		if((this->compare((this->mpt_Data+m)->id,_x))<0) e=m;
+		else if((this->compare((this->mpt_Data+m)->id,_x))>0) d=m;
 		else return m;
 	}
 	return -(e+2);
 }
 template <typename Key,typename Data,typename KeyComparator>
 bool DictionarySAL<Key,Data,KeyComparator>::search(Key _x,Data &_s){
-	if(!this->mpt_Data) return false;
+	if(!this->mpt_Data||!this->mi_Length) return false;
 	int aux=_search(_x);
 	if(aux<0) return false;
 	
@@ -28,13 +29,13 @@ bool DictionarySAL<Key,Data,KeyComparator>::search(Key _x,Data &_s){
 
 template <typename Key,typename Data,typename KeyComparator>
 bool DictionarySAL<Key,Data,KeyComparator>::remove(Key _x,Data &_s){
-	if(!this->mpt_Data) return false;
+	if(!this->mpt_Data||!this->mi_Length) return false;
 	int aux=this->_search(_x);
 	if(aux<0) return false;
 	
 	_s=((this->mpt_Data)+aux)->info;
 	for(int i=aux+1;i<this->mi_Length;i++)
-		*((this->mpt_Data)+i-1)=*((this->mpt_Data)+i);
+		*((this->mpt_Data)+(i-1))=*((this->mpt_Data)+i);
 	this->mi_Length--;
 	
 	return true;
@@ -61,10 +62,12 @@ bool DictionarySAL<Key,Data,KeyComparator>::insert(Key _newKey, Data _newInfo){
 
 template <typename Key,typename Data,typename KeyComparator>
 Key DictionarySAL<Key,Data,KeyComparator>::min() const{
+	if(!this->mpt_Data||!this->mi_Length) return *(new Key);
 	return ((this->mpt_Data)+(this->mi_Length-1))->id;
 }
 template <typename Key,typename Data,typename KeyComparator>
 Key DictionarySAL<Key,Data,KeyComparator>::max() const{
+	if(!this->mpt_Data||!this->mi_Length) return *(new Key);
 	return this->mpt_Data->id;
 }
 
@@ -72,7 +75,7 @@ Key DictionarySAL<Key,Data,KeyComparator>::max() const{
  * dicionario para os dois metodos a seguir */
 template <typename Key,typename Data,typename KeyComparator>
 bool DictionarySAL<Key,Data,KeyComparator>::sucessor(Key _x, Key &_y) const{
-	if(!this->mpt_Data) return false;
+	if(!this->mpt_Data||!this->mi_Length) return false;
 	int aux=this->_search(_x);
 	if((aux<0)||(aux+1)==this->mi_Length) return false;	//Se nao esta na lista||nao possui sucessor
 	
@@ -82,7 +85,7 @@ bool DictionarySAL<Key,Data,KeyComparator>::sucessor(Key _x, Key &_y) const{
 }
 template <typename Key,typename Data,typename KeyComparator>
 bool DictionarySAL<Key,Data,KeyComparator>::predecessor(Key _x, Key &_y) const{
-	if(!this->mpt_Data) return false;
+	if(!this->mpt_Data||!this->mi_Length) return false;
 	int aux=this->_search(_x);
 	if(aux<=0) return false;		//Se encontrou||se nao possui predecessor
 	
